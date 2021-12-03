@@ -12,19 +12,26 @@ import math
 import queue
 import threading
 
-# Main Loop
 
-
+# GUI Main loop
 class Main(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.title("UPBIT 자동매매 프로그램")
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+        config = {"title":"UPBIT 자동매매 프로그램", "version":"[Version: 0.1]"}
+        # iconPath = "./Source/healthIcon.ico"
+        self.title(config["title"] + " " + config["version"])                     # Title 창 이름 변경
+        # root.iconbitmap(default = iconPath)     # Title 창 아이콘 변경
         self.geometry("640x550")
-        self.resizable(False, False) # x(너비), y(높이) 값 변경 불가(창 크기 변경 불가)
+        self.resizable(False, False)
+        self.configure(bg='snow')
         
+
+        #main = view_test.View_main()
         View.View(self)
+        
+        
+        
+        
 
-
-if __name__ == "__main__":
-    root = Main()
-    root.mainloop()
+app = Main()
+app.mainloop()
