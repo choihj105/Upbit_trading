@@ -7,7 +7,7 @@ class View_main(tk.Frame):
         
         # 진행중인 주문 리스트 프레임
         in_list_frame = tk.LabelFrame(self, text="진행중인 주문")
-        in_list_frame.pack(fill="both", padx=5, pady=5, ipady=5)
+        in_list_frame.pack(fill="both", expand=True, padx=5, pady=5, ipady=5)
 
         # 매매진행중인 리스트의 스크롤바
         in_scrollbar = tk.Scrollbar(in_list_frame)
@@ -21,7 +21,7 @@ class View_main(tk.Frame):
 
         # 매매대기중인 리스트 프레임
         standby_list_frame = tk.LabelFrame(self, text="대기중인 주문")
-        standby_list_frame.pack(fill="both", padx=5, pady=5, ipady=5)
+        standby_list_frame.pack(fill="both", expand=True, padx=5, pady=5, ipady=5)
 
         # 매매대기중인 리스트의 스크롤바
         standby_scrollbar = tk.Scrollbar(standby_list_frame)

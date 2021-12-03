@@ -11,6 +11,6 @@ class View(tk.Frame):
         tk.Frame.__init__(self, master)
         
         main = View_main.View_main(master) # root 경로를 이어준다
-        main.pack(fill = BOTH)
+        main.pack(fill = BOTH, expand= True)
         
 
