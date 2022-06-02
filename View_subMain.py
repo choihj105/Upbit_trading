@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import pyupbit
+import subMainFunc
 
 class View_main(tk.Frame):
     def __init__(self, master):
@@ -48,9 +49,9 @@ class View_main(tk.Frame):
 
         # 주문수량 콤보
         amount_opt = ["5%" ,"10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] # 추가 될 예정
-        cmb_amount = ttk.Combobox(request_frame, state="readonly", values=amount_opt, width=10)
-        cmb_amount.current(0)
-        cmb_amount.pack(side="left", padx=5, pady=5)
+        self.cmb_amount = ttk.Combobox(request_frame, state="readonly", values=amount_opt, width=10)
+        self.cmb_amount.current(0)
+        self.cmb_amount.pack(side="left", padx=5, pady=5)
 
 
 
@@ -68,15 +69,15 @@ class View_main(tk.Frame):
         buy_krw_label.pack(side="right")
 
         # 매수가격 엔트리
-        buy_e = tk.Entry(buy_frame, width=15) # 추가 될 예정
-        buy_e.pack(side="right")
+        self.buy_e = tk.Entry(buy_frame, width=15) # 추가 될 예정
+        self.buy_e.pack(side="right")
 
         # 매수가격 콤보
         buy_opt = ["직접입력" , "0%","1%", "2%", "3%", "4%" , "5%", "6%", "7%", "8%", "9%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] # 추가 될 예정
-        cmb_buy = ttk.Combobox(buy_frame, state="readonly", values=buy_opt, width=10)
-        cmb_buy.current(0)
-        cmb_buy.pack(side="right", padx=5, pady=5)
-        #cmb_buy.bind("<<ComboboxSelected>>", self.Change_price_buy)
+        self.cmb_buy = ttk.Combobox(buy_frame, state="readonly", values=buy_opt, width=10)
+        self.cmb_buy.current(0)
+        self.cmb_buy.pack(side="right", padx=5, pady=5)
+        self.cmb_buy.bind("<<ComboboxSelected>>", self.Change_price_buy)
 
 
         # 매도 프레임 (5)
@@ -94,15 +95,15 @@ class View_main(tk.Frame):
         sell_krw_label.pack(side="right")
 
         # 매도가격 엔트리
-        sell_e = tk.Entry(sell_frame, width=15) # 추가 될 예정
-        sell_e.pack(side="right")
+        self.sell_e = tk.Entry(sell_frame, width=15) # 추가 될 예정
+        self.sell_e.pack(side="right")
 
         # 매도가격 콤보
         sell_opt = ["직접입력" ,"0%","1%", "2%", "3%", "4%" ,"5%", "6%", "7%", "8%", "9%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] # 추가 될 예정
-        cmb_sell = ttk.Combobox(sell_frame, state="readonly", values=sell_opt, width=10)
-        cmb_sell.current(0)
-        cmb_sell.pack(side="right", padx=5, pady=5)
-        #cmb_sell.bind("<<ComboboxSelected>>",self.Change_price_sell)
+        self.cmb_sell = ttk.Combobox(sell_frame, state="readonly", values=sell_opt, width=10)
+        self.cmb_sell.current(0)
+        self.cmb_sell.pack(side="right", padx=5, pady=5)
+        self.cmb_sell.bind("<<ComboboxSelected>>",self.Change_price_sell)
 
 
         # 손절 프레임 (6)
@@ -119,31 +120,59 @@ class View_main(tk.Frame):
         stoploss_krw_label.pack(side="right")
 
         # 손절가격 엔트리
-        stoploss_e = tk.Entry(stoploss_frame, width=15) # 추가 될 예정
-        stoploss_e.pack(side="right")
+        self.stoploss_e = tk.Entry(stoploss_frame, width=15) # 추가 될 예정
+        self.stoploss_e.pack(side="right")
 
         # 손절가격 콤보
         stoploss_opt = ["직접입력" , "0%", "-1%", "-2%", "-3%", "-4%" ,"-5%", "-6%", "-7%", "-8%", "-9%", "-10%", "-20%", "-30%", "-40%", "-50%", "-60%", "-70%", "-80%", "-90%", "-100%"] # 추가 될 예정
-        cmb_stoploss = ttk.Combobox(stoploss_frame, state="readonly", values=stoploss_opt, width=10)
-        cmb_stoploss.current(0)
-        cmb_stoploss.pack(side="right", padx=5, pady=5)
-        #cmb_stoploss.bind("<<ComboboxSelected>>",self.Change_price_stoploss)
+        self.cmb_stoploss = ttk.Combobox(stoploss_frame, state="readonly", values=stoploss_opt, width=10)
+        self.cmb_stoploss.current(0)
+        self.cmb_stoploss.pack(side="right", padx=5, pady=5)
+        self.cmb_stoploss.bind("<<ComboboxSelected>>",self.Change_price_stoploss)
 
         # 확인_취소 프레임
         okcnl_frame = tk.Frame(self)
         okcnl_frame.pack(padx=5, pady=5, ipady=5, fill="x")
 
         # 7, 확인_취소 버튼
-        btn_ok = tk.Button(okcnl_frame, padx=5, pady=5, width=15, text="확인")
-        btn_ok.pack(side="left")
+        self.btn_ok = tk.Button(okcnl_frame, padx=5, pady=5, width=15, text="확인")
+        self.btn_ok.pack(side="left")
         # Add_Confirm
 
         self.btn_cnl = tk.Button(okcnl_frame, padx=5, pady=5, width=15, text="취소", command=quit)
         self.btn_cnl.pack(side="right")
         
-
+    # 콤보 선택 시 가격 나오게
     def Change_price_label(self, event):
         ticker = "KRW-" + self.cmb_type.get()
         self.cur_price_label['text'] = pyupbit.get_current_price(ticker)  # 코인종류를 변경할때마다 그때의 가격이 출력
 
+    # 매수 가격
+    def Change_price_buy(self, *args):
+        if self.cmb_buy.get() == "직접입력":
+            pass
+        else:
+            rate= self.cmb_buy.get()[:-1]
+            cur_price= self.cur_price_label['text']
+            self.buy_e.delete("0", tk.END)
+            self.buy_e.insert(0, subMainFunc.Change(cur_price, rate))
+
+    # 매도 가격 함수
+    def Change_price_sell(self, *args):
+         if self.cmb_sell.get() == "직접입력":
+            pass
+         else:
+            rate= self.cmb_sell.get()[:-1]
+            cur_price= self.buy_e.get()
+            self.sell_e.delete("0", tk.END)
+            self.sell_e.insert(0, subMainFunc.Change(cur_price, rate))
     
+    # 손절 가격 함수
+    def Change_price_stoploss(self, *args):
+        if self.cmb_stoploss.get() == "직접입력":
+            pass
+        else:
+            rate= self.cmb_stoploss.get()[:-1]
+            cur_price= self.buy_e.get()
+            self.stoploss_e.delete("0", tk.END)
+            self.stoploss_e.insert(0, subMainFunc.Change(cur_price, rate))
