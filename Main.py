@@ -3,16 +3,6 @@ import tkinter.ttk as ttk
 import tkinter.messagebox as msgbox
 import View
 
-import requests
-import pyupbit
-import pprint
-import time
-import datetime
-import math
-import queue
-import threading
-
-
 # GUI Main loop
 class Main(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -22,17 +12,12 @@ class Main(tk.Tk):
         
         # iconPath = "./Source/healthIcon.ico"
         # root.iconbitmap(default = iconPath)     # Title 창 아이콘 변경
-        self.geometry("640x550")
+        self.geometry("640x550+700+300")
         self.resizable(True, True)
         self.configure(bg='snow')
-        
 
         #main = view_test.View_main()
         View.View(self)
         
-        
-        
-        
-
 app = Main()
 app.mainloop()

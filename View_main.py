@@ -37,8 +37,8 @@ class View_main(tk.Frame):
         func_frame.pack(fill="both", padx=5, pady=5)
 
         # 추가버튼
-        btn_add_func = tk.Button(func_frame, padx=5, pady=5, width=12, text="추가") # command= Main_pump_add
-        btn_add_func.pack(side="left")
+        self.btn_add_func = tk.Button(func_frame, padx=5, pady=5, width=12, text="추가") # command= Main_pump_add
+        self.btn_add_func.pack(side="left")
 
         # 삭제버튼
         btn_del_func = tk.Button(func_frame, padx=5, pady=5, width=12, text="삭제") # command= self.Del_Cancle

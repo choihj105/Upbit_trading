@@ -710,9 +710,6 @@ class Main_pump_add(Toplevel):
         ticker = "KRW-" + self.cmb_type.get()
         self.cur_price_label['text'] = pyupbit.get_current_price(ticker)  # 코인종류를 변경할때마다 그때의 가격이 출력
 
-
-        
-        
     # 매수가격 함수
     def Change_price_buy(self, *args):
         if self.cmb_buy.get() == "직접입력":
