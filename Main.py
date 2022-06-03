@@ -1,13 +1,13 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as msgbox
-import View
+from View import View as W0
 
 # GUI Main loop
 class Main(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        config = {"title":"UPBIT 자동매매 프로그램", "version":"[Version: 0.1]"}
+        config = {"title":"UPBIT 자동매매 프로그램", "version":"[Version: 0.2]"}
         self.title(config["title"] + " " + config["version"])                     # Title 창 이름 변경
         
         # iconPath = "./Source/healthIcon.ico"
@@ -17,7 +17,7 @@ class Main(tk.Tk):
         self.configure(bg='snow')
 
         #main = view_test.View_main()
-        View.View(self)
+        W0.View(self)
         
 app = Main()
 app.mainloop()

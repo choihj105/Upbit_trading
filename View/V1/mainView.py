@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter.constants import BOTH, TOP
 
 class View_main(tk.Frame):
+    #from .mainFunc import mainFunc
+
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         
@@ -37,7 +39,7 @@ class View_main(tk.Frame):
         func_frame.pack(fill="both", padx=5, pady=5)
 
         # 추가버튼
-        self.btn_add_func = tk.Button(func_frame, padx=5, pady=5, width=12, text="추가") # command= Main_pump_add
+        self.btn_add_func = tk.Button(func_frame, padx=5, pady=5, width=12, text="추가")
         self.btn_add_func.pack(side="left")
 
         # 삭제버튼
@@ -90,3 +92,4 @@ class View_main(tk.Frame):
         # 주문가능 레이블
         cur_asset_txt_label = tk.Label(cur_asset_frame, text="주문가능")
         cur_asset_txt_label.pack(side="right")
+

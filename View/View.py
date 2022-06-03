@@ -1,9 +1,7 @@
 import tkinter as tk
 from tkinter.constants import BOTH
-import tkinter.ttk as ttk
-import tkinter.messagebox as msgbox
-import View_main
-import View_subMain
+from .V1 import mainView as W1
+from .V2 import subView as W2
 
 ## View
 class View(tk.Frame):
@@ -11,12 +9,12 @@ class View(tk.Frame):
         tk.Frame.__init__(self, master)
 
         # mainView Init        
-        self.main = View_main.View_main(master)
+        self.main = W1.View_main(master)
         self.main.pack(fill = BOTH, expand= True)
 
         # subView Init
         window = tk.Toplevel(master)
-        self.subMain = View_subMain.View_main(window) # need 안보이게 하는 기능 추가
+        self.subMain = W2.View_main(window) # need 안보이게 하는 기능 추가
 
         # mainView Func
         self.main.btn_add_func.bind("<Button-1>", self.pack) # need 보이게 하는 기능 추가

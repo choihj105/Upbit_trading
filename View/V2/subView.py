@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import pyupbit
-import subMainFunc
+from . import subMainFunc
 
 class View_main(tk.Frame):
     def __init__(self, master):
