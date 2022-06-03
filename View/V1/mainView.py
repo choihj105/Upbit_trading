@@ -3,8 +3,6 @@ from tkinter.constants import BOTH, TOP
 from . import orderF1
 
 class View_main(tk.Frame):
-    from . import mainFunc
-
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         
