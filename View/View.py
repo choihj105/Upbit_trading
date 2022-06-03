@@ -17,7 +17,7 @@ class View(tk.Frame):
         self.subMain = W2.View_main(window) # need 안보이게 하는 기능 추가
 
         # mainView Func
-        self.main.btn_add_func.bind("<Button-1>", self.pack) # need 보이게 하는 기능 추가
+        #self.main.btn_add_func.bind("<Button-1>", self.pack) # need 보이게 하는 기능 추가
         
         # subView Func
         self.subMain.btn_ok.bind("<Button-1>", self.Add_Confirm)
