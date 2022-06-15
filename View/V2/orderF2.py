@@ -54,11 +54,12 @@ class orderFrame(tk.LabelFrame):
         self.cur_price_label['text'] = pyupbit.get_current_price(ticker)  # 코인종류를 변경할때마다 그때의 가격이 출력
 
 # 가격 측정 프레임
-class buyFrame(tk.LabelFrame):
+class costFrame(tk.LabelFrame):
     def __init__(self, parent, *args, **kwargs):
         tk.LabelFrame.__init__(self, parent, *args, **kwargs)
 
-        self.label = tk.Label(self, text="매수가격", width=8)
+        
+        self.label = tk.Label(self, text= "가격", width=8)
         self.label.pack(side="left", padx=5, pady=5)
 
         # [매수, 매도, 손절] 가격 krw 레이블

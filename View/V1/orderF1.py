@@ -30,6 +30,8 @@ class funcFrame(tk.Frame):
           # command=self.mul_select
           # command = self.cnl_mul_select
 
+
+
 # 현재 자산 프레임
 class currencyFrame(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
