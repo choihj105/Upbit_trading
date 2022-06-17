@@ -47,21 +47,28 @@ class orderFrame(tk.LabelFrame):
         self.cmb_amount = ttk.Combobox(self, state="readonly", values=amount_opt, width=10)
         self.cmb_amount.current(0)
         self.cmb_amount.pack(side="left", padx=5, pady=5)
+
+        self.cost = tk.DoubleVar()
     
     # 콤보 선택 시 가격 나오게 
     def Change_price_label(self, event):
         ticker = "KRW-" + self.cmb_type.get()
         self.cur_price_label['text'] = pyupbit.get_current_price(ticker)  # 코인종류를 변경할때마다 그때의 가격이 출력
+        self.cost.set(self.cur_price_label['text'])
+
+    # def getPrice(self):
+    #     cost = tk.StringVar(self.cur_price_label['text'])
+    #     return cost
 
 # 가격 측정 프레임
 class costFrame(tk.LabelFrame):
     def __init__(self, parent, *args, **kwargs):
         tk.LabelFrame.__init__(self, parent, *args, **kwargs)
-
+        self.cost = tk.DoubleVar()
         
         self.label = tk.Label(self, text= "가격", width=8)
         self.label.pack(side="left", padx=5, pady=5)
-
+        
         # [매수, 매도, 손절] 가격 krw 레이블
         self.krw_label = tk.Label(self, text="krw")
         self.krw_label.pack(side="right")
@@ -75,38 +82,93 @@ class costFrame(tk.LabelFrame):
         self.cmb = ttk.Combobox(self, state="readonly", values=self.opt, width=10)
         self.cmb.current(0)
         self.cmb.pack(side="right", padx=5, pady=5)
-        self.cmb.bind("<<ComboboxSelected>>", self.Change_price_buy)
+
+
+# 기능 프레임
+class funcFrame(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        tk.Frame.__init__(self, parent)
+    
+        # 기능1 버튼
+        self.btn1 = tk.Button(self, padx=5, pady=5, width=15, text= kwargs.get("n1"))
+        self.btn1.pack(side="left")
+
+        # 기능2 버튼
+        self.btn2 = tk.Button(self, padx=5, pady=5, width=15, text= kwargs.get("n2"))
+        self.btn2.pack(side="right")
+    
+    # Add_Confirm
+
+# 가격 조정 - 고쳐야 하는 함수!!
+def Change(cur_price, rate):
+    cur_price = float(cur_price)
+    rate = float(rate)
+    cur_price += (cur_price * (rate/100))
+    
+    # .. while 문으로 바꾸기..
+    if cur_price > 0 and cur_price < 10:
+        return round(cur_price, 4)
+    elif cur_price >= 10 and cur_price <100:
+        return round(cur_price, 3)
+    elif cur_price >= 100 and cur_price <1000:
+        return round(cur_price, 2)
+    elif cur_price >= 1000 and cur_price <10000:
+        return round(cur_price, 1)
+    elif cur_price >= 10000 and cur_price <100000:
+        return round(cur_price, 0)
+    elif cur_price >= 100000 and cur_price <1000000:
+        return round(cur_price, -1)
+    elif cur_price >= 1000000 and cur_price <10000000:
+        return round(cur_price, -2)
+    elif cur_price >= 10000000 and cur_price <100000000:
+        return round(cur_price, -3)
+    elif cur_price >= 100000000 and cur_price <1000000000:
+        return round(cur_price, -4)
+    else:
+        print("값이 없음")
+
 
         
-    # 매수 가격
-    def Change_price_buy(self, *args):
-        if self.cmb.get() == "직접입력":
-            pass
-        else:
-            rate= self.cmb.get()[:-1]
-            cur_price= self.cur_price_label['text']
-            self.e.delete("0", tk.END)
-            self.e.insert(0, Change(cur_price, rate))
-
-    # 매도 가격 함수
-    def Change_price_sell(self, *args):
-         if self.cmb.get() == "직접입력":
-            pass
-         else:
-            rate= self.cmb.get()[:-1]
-            cur_price= self.e.get()
-            self.e.delete("0", tk.END)
-            self.e.insert(0, Change(cur_price, rate))
+        #self.cmb.bind("<<ComboboxSelected>>", self.Change_price)
     
-    # 손절 가격 함수
-    def Change_price_stoploss(self, *args):
-        if self.cmb.get() == "직접입력":
-            pass
-        else:
-            rate= self.cmb.get()[:-1]
-            cur_price= self.e.get()
-            self.e.delete("0", tk.END)
-            self.e.insert(0, Change(cur_price, rate))
+    # def Change_price(self, event):
+    #     if self.cmb.get() == "직접입력":
+    #         pass
+    #     else:
+    #         rate = self.cmb.get()[:-1]
+    #         cur_price = self.cost.get()
+    #         self.e.delete("0", tk.END)
+    #         self.e.insert(0, Change(cur_price, rate))
+        
+    # # 매수 가격
+    # def Change_price_buy(self, *args):
+    #     if self.cmb.get() == "직접입력":
+    #         pass
+    #     else:
+    #         rate= self.cmb.get()[:-1]
+    #         cur_price= self.cur_price_label['text']
+    #         self.e.delete("0", tk.END)
+    #         self.e.insert(0, Change(cur_price, rate))
+
+    # # 매도 가격 함수
+    # def Change_price_sell(self, *args):
+    #      if self.cmb.get() == "직접입력":
+    #         pass
+    #      else:
+    #         rate= self.cmb.get()[:-1]
+    #         cur_price= self.e.get()
+    #         self.e.delete("0", tk.END)
+    #         self.e.insert(0, Change(cur_price, rate))
+    
+    # # 손절 가격 함수
+    # def Change_price_stoploss(self, *args):
+    #     if self.cmb.get() == "직접입력":
+    #         pass
+    #     else:
+    #         rate= self.cmb.get()[:-1]
+    #         cur_price= self.e.get()
+    #         self.e.delete("0", tk.END)
+    #         self.e.insert(0, Change(cur_price, rate))
 
 '''
         # 4. 매수가격 옵션
@@ -169,47 +231,3 @@ class costFrame(tk.LabelFrame):
         self.cmb_stoploss.current(0)
         self.cmb_stoploss.pack(side="right", padx=5, pady=5)
         self.cmb_stoploss.bind("<<ComboboxSelected>>",self.Change_price_stoploss)'''
-
-
-# 기능 프레임
-class funcFrame(tk.Frame):
-    def __init__(self, parent, *args, **kwargs):
-        tk.Frame.__init__(self, parent)
-    
-        # 기능1 버튼
-        self.btn1 = tk.Button(self, padx=5, pady=5, width=15, text= kwargs.get("n1"))
-        self.btn1.pack(side="left")
-
-        # 기능2 버튼
-        self.btn2 = tk.Button(self, padx=5, pady=5, width=15, text= kwargs.get("n2"))
-        self.btn2.pack(side="right")
-    
-    # Add_Confirm
-
-# 가격 조정 - 고쳐야 하는 함수!!
-def Change(cur_price, rate):
-    cur_price = float(cur_price)
-    rate = float(rate)
-    cur_price += (cur_price * (rate/100))
-    
-    # .. while 문으로 바꾸기..
-    if cur_price > 0 and cur_price < 10:
-        return round(cur_price, 4)
-    elif cur_price >= 10 and cur_price <100:
-        return round(cur_price, 3)
-    elif cur_price >= 100 and cur_price <1000:
-        return round(cur_price, 2)
-    elif cur_price >= 1000 and cur_price <10000:
-        return round(cur_price, 1)
-    elif cur_price >= 10000 and cur_price <100000:
-        return round(cur_price, 0)
-    elif cur_price >= 100000 and cur_price <1000000:
-        return round(cur_price, -1)
-    elif cur_price >= 1000000 and cur_price <10000000:
-        return round(cur_price, -2)
-    elif cur_price >= 10000000 and cur_price <100000000:
-        return round(cur_price, -3)
-    elif cur_price >= 100000000 and cur_price <1000000000:
-        return round(cur_price, -4)
-    else:
-        print("값이 없음")
