@@ -38,14 +38,23 @@ class View_main(tk.Frame):
             lambda event, a= self.buy_frame, b=self.stoploss_frame:
             self.Conv(event,a,b))
 
+        self.okcnl_frame.btn2.bind("<Button-1>", self.Quit)
 
+        
     def Conv(self, event, a , b):
         cost = a.cost.get()
         if b.cmb.get() == "직접입력":
             pass
         else:
             rate = b.cmb.get()[:-1]
+
+            if b['text'] == "손절":
+                rate = '-' + rate
+
             cur_price = cost
             b.e.delete("0", tk.END)
             b.e.insert(0, orderF2.Change(cur_price, rate))
             b.cost.set(b.e.get())
+
+    def Quit(self, event):
+        self.master.destroy()
