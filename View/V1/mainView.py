@@ -25,12 +25,12 @@ class View_main(tk.Frame):
         # Function
         self.func_frame.btn1.bind("<Button-1>", self.Add_Ticker) # need 보이게 하는 기능 추가
         self.func_frame.btn2.bind("<Button-1>", self.Del_Ticker)
-        #self.subMain.okcnl_frame.bind("<Button-1>", self.Add_Confirm)
     
     def Add_Ticker(self, event):
         window = tk.Toplevel(self)
         self.subMain = W2.View_main(window)
         self.subMain.pack(fill = BOTH, expand= True)
+        self.subMain.okcnl_frame.btn1.bind("<Button-1>", self.Add_Confirm)
 
     def Del_Ticker(self, event):
         for index in reversed(self.standby_list_frame.in_list.curselection()):   # 리스트박스에 클릭한 것을 순서를 출력해주고 그것을 리버스로 반환함
