@@ -1,4 +1,5 @@
 import tkinter as tk
+import pyupbit
 from tkinter.constants import BOTH, TOP
 from . import orderF1
 from ..V2 import subView as W2
@@ -6,6 +7,7 @@ from ..V2 import subView as W2
 class View_main(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
+        self.upbit = self.__Account_Init()
         
         self.in_list_frame = orderF1.orderFrame(self, text="진행중인 주문") # 매매진행 리스트 프레임
         self.standby_list_frame = orderF1.orderFrame(self, text="대기중인 주문") # 매매대기 리스트 프레임
@@ -25,7 +27,25 @@ class View_main(tk.Frame):
         # Function
         self.func_frame.btn1.bind("<Button-1>", self.Add_Ticker) # need 보이게 하는 기능 추가
         self.func_frame.btn2.bind("<Button-1>", self.Del_Ticker)
+        self.__Update_currency()
     
+    def __Account_Init(self):
+        # access key와 secret key를 발급
+        f = open("C:/Users/호준/Desktop/upbitkey.txt")
+        lines = f.readlines()
+        access = lines[0].strip()
+        secret = lines[1].strip()
+        f.close()
+        
+        # 업비트 exchange APi를 위하여 객체만듬
+        upbit = pyupbit.Upbit(access, secret)
+        return upbit
+
+    def __Update_currency(self):
+        cur_krw_balances = self.upbit.get_balance("KRW")
+        self.cur_asset_frame.cur_asset_label.configure(text=cur_krw_balances)
+        self.after(3000, self.__Update_currency)
+
     def Add_Ticker(self, event):
         window = tk.Toplevel(self)
         self.subMain = W2.View_main(window)

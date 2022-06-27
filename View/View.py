@@ -12,6 +12,7 @@ class View(tk.Frame):
         self.main = W1.View_main(master)
         self.main.pack(fill = BOTH, expand= True)
 
+
         # subView Init
         #window = tk.Toplevel(master)
         #self.subMain = W2.View_main(window) # need 안보이게 하는 기능 추가

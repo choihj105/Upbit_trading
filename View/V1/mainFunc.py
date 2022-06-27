@@ -1,7 +1,7 @@
 # 리스트 삭제
-def Del_Cancle(self):
-    for index in reversed(self.standby_list.curselection()):   # 리스트박스에 클릭한 것을 순서를 출력해주고 그것을 리버스로 반환함
-        self.standby_list.delete(index)
+# def Del_Cancle(self):
+#     for index in reversed(self.standby_list.curselection()):   # 리스트박스에 클릭한 것을 순서를 출력해주고 그것을 리버스로 반환함
+#         self.standby_list.delete(index)
 
 # 시장가 매수
 def start_buy(self, selected):
