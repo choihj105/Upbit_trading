@@ -157,7 +157,7 @@ def cnl_mul_select(self):
     self.op_mode2 = False
     return
 
-
+#######################
 # 자동매수 함수
 def getInfo(self,ticker):
     if ticker is ETH_df:
