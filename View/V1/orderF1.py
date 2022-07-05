@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.messagebox as msgbox
 import pyupbit
 # 주문 리스트 프레임
 class orderFrame(tk.LabelFrame):
@@ -31,7 +32,6 @@ class funcFrame(tk.Frame):
           # command = self.cnl_mul_select
 
 
-
 # 현재 자산 프레임
 class currencyFrame(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
@@ -50,7 +50,23 @@ class currencyFrame(tk.Frame):
         self.cur_asset_txt_label = tk.Label(self, text="주문가능")
         self.cur_asset_txt_label.pack(side="right")
 
-
+class my_Msg():
+    def info_start():
+        msgbox.showinfo("알림", "정상적으로 주문이 접수 되었습니다.")
+    def info_error():
+        msgbox.showerror("에러", "주문 오류가 발생하였습니다. 주문을 해주세요.")
+    def info_error2():
+        msgbox.showerror("에러", "주문 오류가 발생하였습니다. 빈값을 확인해주세요")
+    def info_error3():
+        msgbox.showinfo("알림", "잔액이 부족합니다.")
+    def info_buy():
+        msgbox.showinfo("알림", "정상적으로 매수 완료되었습니다.")
+    def info_sell():
+        msgbox.showinfo("알림", "정상적으로 매도 완료되었습니다.")
+    def info_cnl():
+        msgbox.showinfo("알림", "정상적으로 주문이 취소되었습니다.")
+    def info_auto():
+        msgbox.showinfo("알림", "정상적으로 자동매매주문이 접수되었습니다.")
 
 # 시장가 매수
 def start_buy(self, selected):

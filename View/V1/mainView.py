@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.messagebox as msgbox
 import pyupbit
 from tkinter.constants import BOTH, TOP
 from . import orderF1
@@ -28,6 +29,7 @@ class View_main(tk.Frame):
         self.func_frame.btn1.bind("<Button-1>", self.Add_Ticker) # need 보이게 하는 기능 추가
         self.func_frame.btn2.bind("<Button-1>", self.Del_Ticker)
         self.__Update_currency()
+        self.func_frame2.btn1.bind("<Button-1>", self.Check_Price)
     
     def __Account_Init(self):
         # access key와 secret key를 발급
@@ -61,3 +63,46 @@ class View_main(tk.Frame):
         mm_txt = [self.subMain.request_frame.cmb_type.get(), self.subMain.request_frame.cmb_amount.get(),\
             self.subMain.buy_frame.e.get(), self.subMain.sell_frame.e.get(), self.subMain.stoploss_frame.e.get()]
         self.standby_list_frame.in_list.insert(tk.END, mm_txt)
+
+    #################
+    
+
+    def Check_Price(self, event):
+        size = self.standby_list_frame.in_list.size() # 확인해보려는 코인 개수
+        coins = self.standby_list_frame.in_list.get(0, size)
+
+        if size == 0:
+            # error!
+            self.after(100, orderF1.my_Msg.info_error)
+            return
+
+        for i in coins:
+            coin_ticker = "KRW-"+ i[0] # 코인 종류
+            buy_target = float(i[2]) # 매수 목표가
+            cur_price = float(pyupbit.get_current_price(coin_ticker))
+
+            if cur_price >= buy_target:
+                # 매수 함수
+                self.after(10, self.Start_Buy(i))
+                return
+        
+        self.after(2000, self.Check_Price)
+        
+    def Start_Buy(self, coin):
+        coin_ticker = "KRW-"+ coin[0] # 코인 종류
+        buy_percent = coin[1] # 남은 가격 매수 퍼센트
+
+        krw_balance = self.upbit.get_balance("KRW")
+        buy_percent = float(buy_percent[:-1]) / 100
+        krw_balance *= buy_percent
+        krw_balance = round(krw_balance, -3)
+
+        if(krw_balance <= 5000):
+            self.after(100, orderF1.my_Msg.info_error3)
+            return
+
+        #self.upbit.buy_market_order(coin_ticker, krw_balance)
+        self.after(100, orderF1.my_Msg.info_start)
+        print(krw_balance)
+
+        # 가격 체크, 가지고 있는 돈 체크
