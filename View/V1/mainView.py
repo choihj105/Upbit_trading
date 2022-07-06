@@ -65,7 +65,7 @@ class View_main(tk.Frame):
         self.standby_list_frame.in_list.insert(tk.END, mm_txt)
 
     #################
-    
+    # Check_Price -> (예약주문)매수 , Check_Price -> (현재진행중인)매도
 
     def Check_Price(self, event):
         size = self.standby_list_frame.in_list.size() # 확인해보려는 코인 개수
@@ -86,7 +86,7 @@ class View_main(tk.Frame):
                 self.after(10, self.Start_Buy(i))
                 return
         
-        self.after(2000, self.Check_Price)
+        self.after(1000, self.Check_Price)
         
     def Start_Buy(self, coin):
         coin_ticker = "KRW-"+ coin[0] # 코인 종류
@@ -94,15 +94,18 @@ class View_main(tk.Frame):
 
         krw_balance = self.upbit.get_balance("KRW")
         buy_percent = float(buy_percent[:-1]) / 100
-        krw_balance *= buy_percent
-        krw_balance = round(krw_balance, -3)
+        coin_balance = krw_balance * buy_percent
+        coin_balance = round(coin_balance, -3)
 
-        if(krw_balance <= 5000):
+        if(coin_balance <= 5000 or krw_balance <= 5000):
             self.after(100, orderF1.my_Msg.info_error3)
             return
 
         #self.upbit.buy_market_order(coin_ticker, krw_balance)
+        tmp = coin + (coin_balance, round(coin_balance*float(coin[3])/float(coin[2])),\
+            round(coin_balance*float(coin[4])/float(coin[2])),)
+        
+        self.standby_list_frame.in_list.delete(0,tk.END)
+        self.in_list_frame.in_list.insert(tk.END, tmp)
         self.after(100, orderF1.my_Msg.info_start)
-        print(krw_balance)
 
-        # 가격 체크, 가지고 있는 돈 체크
