@@ -2,7 +2,7 @@
 >#### DCTSS(Digital Currency Trading SoftWare System)_ For UPBIT
 ---
 
-![DCTSS Preview]<img src="./ReadmeImg.png" width ="450" height ="450" align='left'>
+[DCTSS Preview]<img src="./ReadmeImg.png" width ="450" height ="450" align='left'>
 
 
 + 암호화폐 거래소 UPBIT에서 자동매매 시스템을 사용해보자
