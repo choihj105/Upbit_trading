@@ -167,4 +167,5 @@ cython_debug/
 # ETC
 tmp.py
 *.code-workspace
+ReadmeImg.png
 # End of https://www.toptal.com/developers/gitignore/api/python
