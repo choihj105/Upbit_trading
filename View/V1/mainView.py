@@ -136,7 +136,7 @@ class View_main(tk.Frame):
         
         self.standby_list_frame.in_list.delete(0,tk.END)
         self.in_list_frame.in_list.insert(tk.END, tmp)
-        self.after(100, orderF1.my_Msg.info_start)
+        self.after(100, orderF1.my_Msg.info_buy)
 
     # 시장가 매도, 나중에 지정가로 바꿀 예정
     def Start_Sell(self, coin, idx):
