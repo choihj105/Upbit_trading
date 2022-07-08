@@ -29,7 +29,7 @@ class View_main(tk.Frame):
         self.func_frame.btn1.bind("<Button-1>", self.Add_Ticker) # need 보이게 하는 기능 추가
         self.func_frame.btn2.bind("<Button-1>", self.Del_Ticker)
         self.__Update_currency()
-        self.func_frame2.btn1.bind("<Button-1>", self.Check_Price)
+        self.func_frame2.btn1.bind("<Button-1>", self.Check)
     
     def __Account_Init(self):
         # access key와 secret key를 발급
@@ -66,28 +66,57 @@ class View_main(tk.Frame):
 
     #################
     # Check_Price -> (예약주문)매수 , Check_Price -> (현재진행중인)매도
-
-    def Check_Price(self, event):
-        size = self.standby_list_frame.in_list.size() # 확인해보려는 코인 개수
-        coins = self.standby_list_frame.in_list.get(0, size)
-
-        if size == 0:
-            # error!
+    def Check(self, event):
+        B_size = self.standby_list_frame.in_list.size()
+        S_size = self.in_list_frame.in_list.size()
+        if(B_size == 0 and S_size == 0):
             self.after(100, orderF1.my_Msg.info_error)
             return
 
+        self.after(100, orderF1.my_Msg.info_start)
+        self.Check_S()
+        self.Check_B()
+
+    def Check_B(self):
+        size = self.standby_list_frame.in_list.size() # 확인해보려는 코인 개수
+        coins = self.standby_list_frame.in_list.get(0, size)
+
+        # 매수
         for i in coins:
             coin_ticker = "KRW-"+ i[0] # 코인 종류
             buy_target = float(i[2]) # 매수 목표가
             cur_price = float(pyupbit.get_current_price(coin_ticker))
-
+            print(cur_price)
             if cur_price >= buy_target:
                 # 매수 함수
                 self.after(10, self.Start_Buy(i))
                 return
-        
-        self.after(1000, self.Check_Price)
-        
+        self.after(1000, self.Check_B)
+    
+    def Check_S(self):
+        size = self.in_list_frame.in_list.size() # 확인해보려는 코인 개수
+        coins = self.in_list_frame.in_list.get(0, size)
+
+        if size > 0:
+            # 매도
+            for i in coins:
+                coin_ticker = "KRW-"+ i[0] # 코인 종류
+                sell_target = float(i[3]) # 매도 목표가
+                stoploss_taget = float(i[4]) # 손절 목표가
+                cur_price = float(pyupbit.get_current_price(coin_ticker))
+
+                if cur_price >= sell_target:   # 손절
+                    # 매도 함수
+                    self.after(10, self.Start_Sell(i, coins.index(i)))
+                    return
+
+                if cur_price <= stoploss_taget: # 손절
+                    # 매도 함수
+                    self.after(10, self.Start_Sell(i, coins.index(i)))
+                    return
+        self.after(1000, self.Check_S)
+    
+    # 시장가 매수, 나중에 지정가로 바꿀 예정
     def Start_Buy(self, coin):
         coin_ticker = "KRW-"+ coin[0] # 코인 종류
         buy_percent = coin[1] # 남은 가격 매수 퍼센트
@@ -109,3 +138,11 @@ class View_main(tk.Frame):
         self.in_list_frame.in_list.insert(tk.END, tmp)
         self.after(100, orderF1.my_Msg.info_start)
 
+    # 시장가 매도, 나중에 지정가로 바꿀 예정
+    def Start_Sell(self, coin, idx):
+        coin_ticker = "KRW-"+ coin[0] # 코인 종류
+        coin_balance = self.upbit.get_balance(coin_ticker) # 내가 산 코인 수량
+        
+        self.after(100, orderF1.my_Msg.info_sell)
+        # self.upbit.sell_market_order(coin_ticker, coin_balance)
+        self.in_list_frame.in_list.delete(idx)
