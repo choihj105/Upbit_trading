@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import tkinter as tk
 import tkinter.messagebox as msgbox
 import pyupbit
@@ -9,7 +10,8 @@ class View_main(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.upbit = self.__Account_Init()
-        
+        self._jobB =None
+        self._jobS =None
         self.in_list_frame = orderF1.orderFrame(self, text="진행중인 주문") # 매매진행 리스트 프레임
         self.standby_list_frame = orderF1.orderFrame(self, text="대기중인 주문") # 매매대기 리스트 프레임
         self.func_frame = orderF1.funcFrame(self, n1 = "추가", n2 = "삭제") # 기능 프레임1(추가, 삭제)
@@ -30,6 +32,7 @@ class View_main(tk.Frame):
         self.func_frame.btn2.bind("<Button-1>", self.Del_Ticker)
         self.__Update_currency()
         self.func_frame2.btn1.bind("<Button-1>", self.Check)
+        self.func_frame2.btn2.bind("<Button-1>", self.Cancle)
     
     def __Account_Init(self):
         # access key와 secret key를 발급
@@ -77,6 +80,23 @@ class View_main(tk.Frame):
         self.Check_S()
         self.Check_B()
 
+    def Cancle(self, event):
+        try:
+            #if func == 'B':
+            if self._jobB != None:
+                self.after_cancel(self._jobB)
+                self._jobB = None
+            
+            #if func == 'S':
+            if self._jobS != None:
+                self.after_cancel(self._jobS)
+                self._jobS = None    
+
+            self.after(100, orderF1.my_Msg.info_cnl)
+        
+        except:
+            self.after(100, orderF1.my_Msg.info_error4)     
+
     def Check_B(self):
         size = self.standby_list_frame.in_list.size() # 확인해보려는 코인 개수
         coins = self.standby_list_frame.in_list.get(0, size)
@@ -91,7 +111,7 @@ class View_main(tk.Frame):
                 # 매수 함수
                 self.after(10, self.Start_Buy(i))
                 return
-        self.after(1000, self.Check_B)
+        self._jobB = self.after(1000, self.Check_B)
     
     def Check_S(self):
         size = self.in_list_frame.in_list.size() # 확인해보려는 코인 개수
@@ -114,7 +134,7 @@ class View_main(tk.Frame):
                     # 매도 함수
                     self.after(10, self.Start_Sell(i, coins.index(i)))
                     return
-        self.after(1000, self.Check_S)
+        self._jobS = self.after(1000, self.Check_S)
     
     # 시장가 매수, 나중에 지정가로 바꿀 예정
     def Start_Buy(self, coin):

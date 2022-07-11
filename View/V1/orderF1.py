@@ -59,6 +59,8 @@ class my_Msg():
         msgbox.showerror("에러", "주문 오류가 발생하였습니다. 빈값을 확인해주세요")
     def info_error3():
         msgbox.showinfo("알림", "잔액이 부족합니다.")
+    def info_error4():
+        msgbox.showerror("에러", "취소 오류가 발생하였습니다.")
     def info_buy():
         msgbox.showinfo("알림", "정상적으로 매수 완료되었습니다.")
     def info_sell():
@@ -67,3 +69,4 @@ class my_Msg():
         msgbox.showinfo("알림", "정상적으로 주문이 취소되었습니다.")
     def info_auto():
         msgbox.showinfo("알림", "정상적으로 자동매매주문이 접수되었습니다.")
+    
