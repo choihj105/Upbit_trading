@@ -74,4 +74,6 @@ class my_Msg():
         msgbox.showinfo("알림", "정상적으로 주문이 취소되었습니다.")
     def info_auto():
         msgbox.showinfo("알림", "정상적으로 자동매매주문이 접수되었습니다.")
+    def info_auto_cnl():
+        msgbox.showinfo("알림", "정상적으로 자동매매주문이 취소되었습니다.")
     

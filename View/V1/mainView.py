@@ -12,6 +12,9 @@ class View_main(tk.Frame):
         self.upbit = self.__Account_Init()
         self._jobB =None
         self._jobS =None
+        self._jobAuto =None
+        self._Auto_Base_Price =None
+
         self.in_list_frame = orderF1.orderFrame(self, text="진행중인 주문") # 매매진행 리스트 프레임
         self.standby_list_frame = orderF1.orderFrame(self, text="대기중인 주문") # 매매대기 리스트 프레임
         self.func_frame = orderF1.funcFrame(self, n1 = "추가", n2 = "삭제") # 기능 프레임1(추가, 삭제)
@@ -28,11 +31,13 @@ class View_main(tk.Frame):
         self.cur_asset_frame.pack(fill="both", padx=5, pady=5, ipady=10, ipadx=10)
 
         # Function
+        self.__Update_currency()
         self.func_frame.btn1.bind("<Button-1>", self.Add_Ticker) # need 보이게 하는 기능 추가
         self.func_frame.btn2.bind("<Button-1>", self.Del_Ticker)
-        self.__Update_currency()
         self.func_frame2.btn1.bind("<Button-1>", self.Check)
         self.func_frame2.btn2.bind("<Button-1>", self.Cancle)
+        self.func_frame3.btn1.bind("<Button-1>", self.AutoCheck)
+        self.func_frame3.btn2.bind("<Button-1>", self.AutoCancle)
     
     def __Account_Init(self):
         # access key와 secret key를 발급
@@ -174,3 +179,42 @@ class View_main(tk.Frame):
         # self.upbit.sell_market_order(coin_ticker, coin_balance)
         self.in_list_frame.in_list.delete(idx)
         self.in_list_frame.in_switch.config(bg="#FF6666")
+
+    ########## 
+    # 자동매매
+    def AutoCancle(self, event):
+        try:
+            #if func == 'Auto':
+            if self._jobAuto != None:
+                self.after_cancel(self._jobAuto)
+                self._jobAuto = None
+                self._Auto_Base_Price = None
+            self.after(100, orderF1.my_Msg.info_auto_cnl)
+        
+        except:
+            self.after(100, orderF1.my_Msg.info_error4) 
+
+
+    def AutoCheck(self, event):
+        tickers = pyupbit.get_tickers(fiat="KRW")
+
+        # 시작 했을때의 가격 기준점
+        if self._Auto_Base_Price == None:
+            self.after(100, orderF1.my_Msg.info_auto)
+            self._Auto_Base_Price = pyupbit.get_current_price(tickers)
+
+        # 갱신되는 가격
+        Cur_Dict = pyupbit.get_current_price(tickers)
+        Cur_Prices = list(Cur_Dict.values())
+        Cur_Tickers = list(Cur_Dict.keys())
+
+        # 기존 가격
+        Base_Prices = list(self._Auto_Base_Price.values())
+
+        for i in range(len(Cur_Dict)):
+            if  Cur_Prices[i] >= (Base_Prices[i] * 1.01):
+                print(Cur_Tickers[i], ": ", Cur_Prices[i], Base_Prices[i])
+        
+        self._jobAuto = self.after(1000, self.AutoCheck, event)
+
+
