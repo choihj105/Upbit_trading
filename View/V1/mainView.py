@@ -85,11 +85,13 @@ class View_main(tk.Frame):
             #if func == 'B':
             if self._jobB != None:
                 self.after_cancel(self._jobB)
+                self.standby_list_frame.in_switch.config(bg="#FF6666")
                 self._jobB = None
             
             #if func == 'S':
             if self._jobS != None:
                 self.after_cancel(self._jobS)
+                self.in_list_frame.in_switch.config(bg="#FF6666")
                 self._jobS = None    
 
             self.after(100, orderF1.my_Msg.info_cnl)
@@ -111,6 +113,8 @@ class View_main(tk.Frame):
                 # 매수 함수
                 self.after(10, self.Start_Buy(i))
                 return
+
+        self.standby_list_frame.in_switch.config(bg="#66FF66")
         self._jobB = self.after(1000, self.Check_B)
     
     def Check_S(self):
@@ -134,6 +138,8 @@ class View_main(tk.Frame):
                     # 매도 함수
                     self.after(10, self.Start_Sell(i, coins.index(i)))
                     return
+        
+        self.in_list_frame.in_switch.config(bg="#66FF66")       
         self._jobS = self.after(1000, self.Check_S)
     
     # 시장가 매수, 나중에 지정가로 바꿀 예정
@@ -156,6 +162,7 @@ class View_main(tk.Frame):
         
         self.standby_list_frame.in_list.delete(0,tk.END)
         self.in_list_frame.in_list.insert(tk.END, tmp)
+        self.standby_list_frame.in_switch.config(bg="#FF6666")
         self.after(100, orderF1.my_Msg.info_buy)
 
     # 시장가 매도, 나중에 지정가로 바꿀 예정
@@ -166,3 +173,4 @@ class View_main(tk.Frame):
         self.after(100, orderF1.my_Msg.info_sell)
         # self.upbit.sell_market_order(coin_ticker, coin_balance)
         self.in_list_frame.in_list.delete(idx)
+        self.in_list_frame.in_switch.config(bg="#FF6666")

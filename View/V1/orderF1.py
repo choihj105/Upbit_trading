@@ -15,6 +15,11 @@ class orderFrame(tk.LabelFrame):
         self.in_list.pack(side="left", fill="both", expand=True, padx=5, pady=5)
         self.in_scrollbar.config(command=self.in_list.yview)
 
+        # 캔버스 도형 : 주문 체크용
+        self.in_switch = tk.Canvas(self, width= 10, height=20, bg="#FF6666")
+        self.in_switch.pack(side="left",fill="y", pady=5, anchor="w")
+
+
 # 기능 프레임
 class funcFrame(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
