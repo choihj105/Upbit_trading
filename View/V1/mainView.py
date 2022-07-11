@@ -211,7 +211,7 @@ class View_main(tk.Frame):
         Base_Prices = list(self._Auto_Base_Price.values())
 
         for i in range(len(Cur_Dict)):
-            if  Cur_Prices[i] >= (Base_Prices[i] * 1.002):
+            if  Cur_Prices[i] >= (Base_Prices[i] * 1.05):
                 print(Cur_Tickers[i], ": ", Cur_Prices[i], Base_Prices[i])
 
                 # 자동 매수
@@ -234,7 +234,7 @@ class View_main(tk.Frame):
                     self.in_list_frame.in_list.insert(tk.END, tmp)
                     self.after(100, self.Check_S)
                     return
-                    
+
         self._jobAuto = self.after(1000, self.AutoCheck, event)
 
 
