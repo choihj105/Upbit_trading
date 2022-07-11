@@ -230,10 +230,11 @@ class View_main(tk.Frame):
                     except:
                         self.after(100, orderF1.my_Msg.info_error)
 
-                    tmp = [coin_ticker[-3:], "30%", Cur_Prices[i], round(Cur_Prices[i] * 1.1, -2), round(Cur_Prices[i]*0.97, -2),"자동매매진행중"]
+                    tmp = [coin_ticker[-3:], "30%", Cur_Prices[i], round(Cur_Prices[i] * 1.1, 1), round(Cur_Prices[i]*0.97, 1),"자동매매진행중"]
                     self.in_list_frame.in_list.insert(tk.END, tmp)
                     self.after(100, self.Check_S)
                     return
+                    
         self._jobAuto = self.after(1000, self.AutoCheck, event)
 
 
