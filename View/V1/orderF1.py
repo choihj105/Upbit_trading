@@ -59,7 +59,7 @@ class my_Msg():
     def info_start():
         msgbox.showinfo("알림", "정상적으로 주문이 접수 되었습니다.")
     def info_error():
-        msgbox.showerror("에러", "주문 오류가 발생하였습니다. 주문을 해주세요.")
+        msgbox.showerror("에러", "주문 오류가 발생하였습니다.")
     def info_error2():
         msgbox.showerror("에러", "주문 오류가 발생하였습니다. 빈값을 확인해주세요")
     def info_error3():
@@ -76,4 +76,6 @@ class my_Msg():
         msgbox.showinfo("알림", "정상적으로 자동매매주문이 접수되었습니다.")
     def info_auto_cnl():
         msgbox.showinfo("알림", "정상적으로 자동매매주문이 취소되었습니다.")
+    def ask_auto_buy(ticker, price):
+        return msgbox.askquestion("자동매수알림", "매수 하시겠습니까?\n" + str(ticker) + "\n매수 가격: " + str(price))
     

@@ -190,7 +190,6 @@ class View_main(tk.Frame):
                 self._jobAuto = None
                 self._Auto_Base_Price = None
             self.after(100, orderF1.my_Msg.info_auto_cnl)
-        
         except:
             self.after(100, orderF1.my_Msg.info_error4) 
 
@@ -212,9 +211,29 @@ class View_main(tk.Frame):
         Base_Prices = list(self._Auto_Base_Price.values())
 
         for i in range(len(Cur_Dict)):
-            if  Cur_Prices[i] >= (Base_Prices[i] * 1.01):
+            if  Cur_Prices[i] >= (Base_Prices[i] * 1.002):
                 print(Cur_Tickers[i], ": ", Cur_Prices[i], Base_Prices[i])
-        
+
+                # 자동 매수
+                order = orderF1.my_Msg.ask_auto_buy(Cur_Tickers[i], Cur_Prices[i]) # yes, no
+                if order == 'yes':
+                    # 매수
+                    print(Cur_Tickers[i] + " 매수하였습니다.")
+                    coin_ticker = Cur_Tickers[i]
+                    krw_balance = self.upbit.get_balance("KRW")
+                    krw_balance *= 0.3 # 매수 퍼센트
+                    krw_balance = round(krw_balance, -3)
+
+                    try:
+                        #self.upbit.buy_market_order(coin_ticker, krw_balance)
+                        self.after(100, orderF1.my_Msg.info_buy)
+                    except:
+                        self.after(100, orderF1.my_Msg.info_error)
+
+                    tmp = [coin_ticker[-3:], "30%", Cur_Prices[i], round(Cur_Prices[i] * 1.1, -2), round(Cur_Prices[i]*0.97, -2),"자동매매진행중"]
+                    self.in_list_frame.in_list.insert(tk.END, tmp)
+                    self.after(100, self.Check_S)
+                    return
         self._jobAuto = self.after(1000, self.AutoCheck, event)
 
 
