@@ -6,7 +6,7 @@
 
 ---
 
-<img src="./subView.png">
+<img src="./subView.png" width ="450" align='left'>
 
 
 + 암호화폐 거래소 UPBIT에서 자동매매 시스템을 사용해보자
