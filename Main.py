@@ -1,6 +1,4 @@
 import tkinter as tk
-import tkinter.ttk as ttk
-import tkinter.messagebox as msgbox
 from View import View as W0
 
 # GUI Main loop
@@ -16,7 +14,6 @@ class Main(tk.Tk):
         self.resizable(True, True)
         self.configure(bg='snow')
 
-        #main = view_test.View_main()
         W0.View(self)
         
 app = Main()

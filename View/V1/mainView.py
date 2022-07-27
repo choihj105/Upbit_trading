@@ -176,7 +176,7 @@ class View_main(tk.Frame):
         coin_balance = self.upbit.get_balance(coin_ticker) # 내가 산 코인 수량
         
         self.after(100, orderF1.my_Msg.info_sell)
-        # self.upbit.sell_market_order(coin_ticker, coin_balance)
+        self.upbit.sell_market_order(coin_ticker, coin_balance)
         self.in_list_frame.in_list.delete(idx)
         self.in_list_frame.in_switch.config(bg="#FF6666")
 
@@ -225,7 +225,7 @@ class View_main(tk.Frame):
                     krw_balance = round(krw_balance, -3)
 
                     try:
-                        #self.upbit.buy_market_order(coin_ticker, krw_balance)
+                        self.upbit.buy_market_order(coin_ticker, krw_balance)
                         self.after(100, orderF1.my_Msg.info_buy)
                     except:
                         self.after(100, orderF1.my_Msg.info_error)

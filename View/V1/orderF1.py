@@ -1,6 +1,5 @@
 import tkinter as tk
 import tkinter.messagebox as msgbox
-import pyupbit
 # 주문 리스트 프레임
 class orderFrame(tk.LabelFrame):
     def __init__(self, parent, *args, **kwargs):
